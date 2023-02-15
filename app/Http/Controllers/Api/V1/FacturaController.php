@@ -6,6 +6,8 @@ use App\Models\Factura;
 use App\Http\Requests\StoreFacturaRequest;
 use App\Http\Requests\UpdateFacturaRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\FacturaResource;
+use App\Http\Resources\V1\FacturaCollection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 
@@ -16,7 +18,7 @@ class FacturaController extends Controller
      */
     public function index(): Response
     {
-        //
+        return response(new FacturaCollection(Factura::paginate()));
     }
 
     /**
@@ -40,7 +42,7 @@ class FacturaController extends Controller
      */
     public function show(Factura $factura): Response
     {
-        //
+        return response(new FacturaResource($factura));
     }
 
     /**

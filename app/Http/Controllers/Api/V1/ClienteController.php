@@ -6,6 +6,8 @@ use App\Models\Cliente;
 use App\Http\Requests\StoreClienteRequest;
 use App\Http\Requests\UpdateClienteRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\ClienteResource;
+use App\Http\Resources\V1\ClienteCollection;
 // use Illuminate\Http\RedirectResponse;
 // use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,7 +20,7 @@ class ClienteController extends Controller
      */
     public function index(): Response
     {
-        return response(Cliente::all());
+        return response(new ClienteCollection(Cliente::paginate()));          //usa automaticamente ClienteResource
     }
 
     /**
@@ -42,7 +44,7 @@ class ClienteController extends Controller
      */
     public function show(Cliente $cliente): Response
     {
-        //
+        return response(new ClienteResource($cliente));
     }
 
     /**
