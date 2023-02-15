@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Cliente;
 use App\Http\Requests\StoreClienteRequest;
 use App\Http\Requests\UpdateClienteRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
+// use Illuminate\Http\RedirectResponse;
+// use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+
 
 class ClienteController extends Controller
 {
@@ -15,7 +18,7 @@ class ClienteController extends Controller
      */
     public function index(): Response
     {
-        //
+        return response(Cliente::all());
     }
 
     /**

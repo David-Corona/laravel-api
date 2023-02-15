@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Factura;
 use App\Http\Requests\StoreFacturaRequest;
 use App\Http\Requests\UpdateFacturaRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 
