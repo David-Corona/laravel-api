@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Factura;
-use App\Http\Requests\StoreFacturaRequest;
-use App\Http\Requests\UpdateFacturaRequest;
+use App\Http\Requests\V1\StoreFacturaRequest;
+use App\Http\Requests\V1\UpdateFacturaRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\FacturaResource;
 use App\Http\Resources\V1\FacturaCollection;
@@ -33,14 +33,6 @@ class FacturaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): Response
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreFacturaRequest $request): RedirectResponse
@@ -54,14 +46,6 @@ class FacturaController extends Controller
     public function show(Factura $factura): Response
     {
         return response(new FacturaResource($factura));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Factura $factura): Response
-    {
-        //
     }
 
     /**

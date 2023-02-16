@@ -12,9 +12,9 @@ class ClientesFilter extends ApiFilter {
 
     // Fields and operators we are allowed to filter on
     protected $allowedParms = [
-        'id' => ['eq'],
         'nombre' => ['eq'],
         'tipo' =>  ['eq'],
+        'email' => ['eq'],
         'direccion' => ['eq'],
         'ciudad' =>  ['eq'],
         'estado' =>  ['eq'],

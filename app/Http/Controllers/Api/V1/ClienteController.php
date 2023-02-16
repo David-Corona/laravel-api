@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Cliente;
-use App\Http\Requests\StoreClienteRequest;
-use App\Http\Requests\UpdateClienteRequest;
+use App\Http\Requests\V1\StoreClienteRequest;
+use App\Http\Requests\V1\UpdateClienteRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ClienteResource;
 use App\Http\Resources\V1\ClienteCollection;
 use App\Filters\V1\ClientesFilter;
-// use Illuminate\Http\RedirectResponse;
+//  use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -36,19 +36,11 @@ class ClienteController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): Response
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClienteRequest $request): RedirectResponse
+    public function store(StoreClienteRequest $request): Response
     {
-        //
+        return response(new ClienteResource(Cliente::create($request->all())));
     }
 
     /**
@@ -63,14 +55,6 @@ class ClienteController extends Controller
         }
 
         return response(new ClienteResource($cliente));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cliente $cliente): Response
-    {
-        //
     }
 
     /**
