@@ -8,8 +8,9 @@ use App\Http\Requests\UpdateClienteRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ClienteResource;
 use App\Http\Resources\V1\ClienteCollection;
+use App\Services\V1\ClienteQuery;
 // use Illuminate\Http\RedirectResponse;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 
@@ -18,9 +19,17 @@ class ClienteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return response(new ClienteCollection(Cliente::paginate()));          //usa automaticamente ClienteResource
+        $filter = new ClienteQuery();
+        $queryItems = $filter->transform($request); //return Array: [['column', 'operator', 'value']]
+
+        if (count($queryItems) == 0) { //if no filters
+            return response(new ClienteCollection(Cliente::paginate())); //automatically uses ClienteResource
+        } else {
+            return response(new ClienteCollection(Cliente::where($queryItems)->paginate()));
+        }
+
     }
 
     /**
