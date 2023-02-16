@@ -22,12 +22,12 @@ class FacturaController extends Controller
     public function index(Request $request): Response
     {
         $filter = new FacturasFilter();
-        $queryItems = $filter->transform($request);
+        $filterItems = $filter->transform($request);
 
-        if (count($queryItems) == 0) {
+        if (count($filterItems) == 0) {
             return response(new FacturaCollection(Factura::paginate()));
         } else {
-            $facturas = Factura::where($queryItems)->paginate();
+            $facturas = Factura::where($filterItems)->paginate();
             return response(new FacturaCollection($facturas->appends($request->query())));
         }
     }

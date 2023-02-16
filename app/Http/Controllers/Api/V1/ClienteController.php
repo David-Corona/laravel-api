@@ -22,14 +22,17 @@ class ClienteController extends Controller
     public function index(Request $request): Response
     {
         $filter = new ClientesFilter();
-        $queryItems = $filter->transform($request); //return Array: [['column', 'operator', 'value']]
+        $filterItems = $filter->transform($request); //return Array: [['column', 'operator', 'value']]
 
-        if (count($queryItems) == 0) { //if no filters
-            return response(new ClienteCollection(Cliente::paginate())); //automatically uses ClienteResource
-        } else {
-            $clientes = Cliente::where($queryItems)->paginate();
-            return response(new ClienteCollection($clientes->appends($request->query())));
+        $includeFacturas = $request->query('includeFacturas');
+
+        $clientes = Cliente::where($filterItems);
+
+        if ($includeFacturas) {
+            $clientes = $clientes->with('facturas');
         }
+
+        return response(new ClienteCollection($clientes->paginate()->appends($request->query())));
     }
 
     /**
@@ -53,6 +56,12 @@ class ClienteController extends Controller
      */
     public function show(Cliente $cliente): Response
     {
+        $includeFacturas = request()->query('includeFacturas');
+
+        if ($includeFacturas) {
+            return response(new ClienteResource($cliente->loadMissing('facturas')));
+        }
+
         return response(new ClienteResource($cliente));
     }
 

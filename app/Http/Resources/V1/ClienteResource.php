@@ -21,7 +21,8 @@ class ClienteResource extends JsonResource
             'direccion' => $this->direccion,
             'ciudad' =>  $this->ciudad,
             'estado' =>  $this->estado,
-            'codigoPostal' => $this->codigo_postal         // camelCase
+            'codigoPostal' => $this->codigo_postal,         // camelCase
+            'facturas' => FacturaResource::collection($this->whenLoaded('facturas'))
         ];
     }
 }
