@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ClienteResource;
 use App\Http\Resources\V1\ClienteCollection;
 use App\Filters\V1\ClientesFilter;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -68,8 +67,8 @@ class ClienteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cliente $cliente): RedirectResponse
+    public function destroy(Cliente $cliente)
     {
-        //
+        $cliente->delete();
     }
 }

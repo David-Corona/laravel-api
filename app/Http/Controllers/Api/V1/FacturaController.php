@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Factura;
-use App\Http\Requests\V1\StoreFacturaRequest;
-use App\Http\Requests\V1\UpdateFacturaRequest;
 use App\Http\Requests\V1\BulkStoreFacturaRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\FacturaResource;
 use App\Http\Resources\V1\FacturaCollection;
 use App\Filters\V1\FacturasFilter;
 
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -35,14 +32,6 @@ class FacturaController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreFacturaRequest $request): RedirectResponse
-    {
-        //
-    }
-
     public function bulkStore(BulkStoreFacturaRequest $request)
     {
         $bulk = collect($request->all())->map(function($arr, $key) {    // request information in to a collection
@@ -61,18 +50,10 @@ class FacturaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateFacturaRequest $request, Factura $factura): RedirectResponse
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Factura $factura): RedirectResponse
+    public function destroy(Factura $factura)
     {
-        //
+        $factura->delete();
     }
 }
