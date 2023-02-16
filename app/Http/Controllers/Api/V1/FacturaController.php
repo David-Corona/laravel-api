@@ -8,17 +8,28 @@ use App\Http\Requests\UpdateFacturaRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\FacturaResource;
 use App\Http\Resources\V1\FacturaCollection;
+use App\Filters\V1\FacturasFilter;
+
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class FacturaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return response(new FacturaCollection(Factura::paginate()));
+        $filter = new FacturasFilter();
+        $queryItems = $filter->transform($request);
+
+        if (count($queryItems) == 0) {
+            return response(new FacturaCollection(Factura::paginate()));
+        } else {
+            $facturas = Factura::where($queryItems)->paginate();
+            return response(new FacturaCollection($facturas->appends($request->query())));
+        }
     }
 
     /**

@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateClienteRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ClienteResource;
 use App\Http\Resources\V1\ClienteCollection;
-use App\Services\V1\ClienteQuery;
+use App\Filters\V1\ClientesFilter;
 // use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,15 +21,15 @@ class ClienteController extends Controller
      */
     public function index(Request $request): Response
     {
-        $filter = new ClienteQuery();
+        $filter = new ClientesFilter();
         $queryItems = $filter->transform($request); //return Array: [['column', 'operator', 'value']]
 
         if (count($queryItems) == 0) { //if no filters
             return response(new ClienteCollection(Cliente::paginate())); //automatically uses ClienteResource
         } else {
-            return response(new ClienteCollection(Cliente::where($queryItems)->paginate()));
+            $clientes = Cliente::where($queryItems)->paginate();
+            return response(new ClienteCollection($clientes->appends($request->query())));
         }
-
     }
 
     /**

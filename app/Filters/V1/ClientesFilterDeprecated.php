@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Services\V1;
+namespace App\Filters\V1;
+
+use App\Filters\ApiFilter;
 
 use Illuminate\Http\Request;
 
-class ClienteQuery {
+class ClientesFilterDeprecated extends ApiFilter {
 
     // Query example: clientes?codigoPostal[gt]=30000
 
