@@ -3,6 +3,7 @@
 namespace App\Http\Requests\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateClienteRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateClienteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,38 @@ class UpdateClienteRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+
+        $method = $this->method();
+
+        if($method == 'PUT'){
+            return [
+                'nombre' => ['required'],
+                'tipo' =>  ['required', Rule::in(['Empresa', 'Persona'])],
+                'email' => ['required', 'email'],
+                'direccion' => ['required'],
+                'ciudad' =>  ['required'],
+                'estado' =>  ['required'],
+                'codigoPostal' => ['required']
+            ];
+        } else { //PATCH, sometimes rule: if not present, then not validated.
+            return [
+                'nombre' => ['sometimes', 'required'],
+                'tipo' =>  ['sometimes', 'required', Rule::in(['Empresa', 'Persona'])],
+                'email' => ['sometimes', 'required', 'email'],
+                'direccion' => ['sometimes', 'required'],
+                'ciudad' =>  ['sometimes', 'required'],
+                'estado' =>  ['sometimes', 'required'],
+                'codigoPostal' => ['sometimes', 'required']
+            ];
+        }
     }
+
+    protected function prepareForValidation() {
+        if($this->codigoPostal){
+            $this->merge([
+                'codigo_postal' => $this->codigoPostal
+            ]);
+        }
+    }
+
 }
